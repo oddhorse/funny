@@ -1,0 +1,17 @@
+{
+  "name": "funny",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "john trinh / oddhorse",
+  "type": "commonjs",
+  "main": "funny.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "masto": "^7.10.2"
+  }
+}
