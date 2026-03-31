@@ -16,6 +16,8 @@ const makeStatus = async () => {
 		status: "😂😂",
 		visibility: 'public'
 	})
+	console.log(`status link: ${s.url}`)
+
 }
 
 makeStatus()
