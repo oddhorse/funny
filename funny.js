@@ -1,27 +1,21 @@
-const Express = require('express')
-const Env = require('dotenv')
 
-const app = Express()
+require('dotenv').config()
 
-const dot = Env.
+const Masto = require('masto')
 
-const getAllPosts = async (params) => {
-	const url = "https://networked-media.itp.io/api/v1/timelines/public?limit=2"
-
-
-
-	const response = await fetch(url, {
-		headers: {
-			"Authorization": "Bearer ",
-		}
-	})
-	let posts = await response.json()
-	console.log(posts)
-}
-
-app.listen(4005, () => {
-	console.log("app running on http://localhost:4005")
-	getAllPosts()
+const m = Masto.createRestAPIClient({
+	url: 'https://networked-media.itp.io',
+	accessToken: process.env.TOKEN
 })
 
+/**
+ * 
+ */
+const makeStatus = async () => {
+	const s = await m.v1.statuses.create({
+		status: "hi",
+		visibility: 'public'
+	})
+}
 
+makeStatus()
