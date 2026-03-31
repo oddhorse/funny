@@ -13,7 +13,7 @@ const m = Masto.createRestAPIClient({
  */
 const makeStatus = async () => {
 	const s = await m.v1.statuses.create({
-		status: "hi",
+		status: "😂😂",
 		visibility: 'public'
 	})
 }
