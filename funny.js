@@ -1,6 +1,4 @@
-
 require('dotenv').config()
-
 const Masto = require('masto')
 
 const m = Masto.createRestAPIClient({
@@ -8,12 +6,23 @@ const m = Masto.createRestAPIClient({
 	accessToken: process.env.TOKEN
 })
 
+const validateContent = () => {
+
+}
+
 /**
  * 
  */
 const makeStatus = async () => {
+	let rand = Math.floor(Math.random() * 6)
+	console.log(`we doing ${rand} this time`)
+
+	let msg = ''
+	for (let i = 0; i < rand; i++) msg += "😂"
+
+	console.log(`msg: ${msg}`)
 	const s = await m.v1.statuses.create({
-		status: "😂😂",
+		status: msg,
 		visibility: 'public'
 	})
 	console.log(`status link: ${s.url}`)
@@ -21,3 +30,5 @@ const makeStatus = async () => {
 }
 
 makeStatus()
+
+setInterval(makeStatus, 10000)
