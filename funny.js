@@ -6,6 +6,7 @@ const m = Masto.createRestAPIClient({
 	accessToken: process.env.TOKEN
 })
 
+// TODO
 const validateContent = () => {
 
 }
@@ -24,9 +25,7 @@ const getRandInt = (min, max) => {
 	return rand
 }
 
-/**
- * 
- */
+// UNUSED
 const makeStatus = async () => {
 	let rand = Math.floor(Math.random() * 6)
 	console.log(`we doing ${rand} this time`)
@@ -42,38 +41,44 @@ const makeStatus = async () => {
 	console.log(`status link: ${s.url}`)
 }
 
-const getTimeline = async () => {
+
+const getTimeline = async (limit = 5) => {
 	const result = await m.v1.timelines.public.list({
-		limit: 30,
+		limit: limit,
 	})
-	console.log(result[1])
-	return result[0]
+	return result
 }
 
-getTimeline()
+const scrubPs = (text) => {
+	return text.substring(3, text.length - 4)
+}
 
-const replyToStatus = async (statusId, msg) => {
+/**
+ * main running function
+ */
+const pushSlop = async () => {
+	// TODO: 1. get random most recent post
+	const timeline = await getTimeline(5)
+	const target = timeline[getRandInt(0, 4)]
 
+	// TODO: 2. author a reply to the post
+	const origMsg = scrubPs(target.content)
+	const replyMsg = `they said ${origMsg} 😂😂😂`
+
+	// TODO: 3. validate reply to post against server rules
+
+	// TODO: 4. publish post
 	const reply = await m.v1.statuses.create({
-		inReplyToId: statusId,
-		status: msg,
-		visibility: "private"
+		inReplyToId: target.id,
+		status: replyMsg,
+		visibility: 'private'
 	})
-	console.log(reply)
-	console.log(`reply link: ${reply.url}`)
+	console.log(`replied to @${target.account.username}: "${origMsg}"
+		with "${replyMsg}"`)
+	console.log(`link: ${reply.url}`)
 }
 
-// get most recent post
+pushSlop()
 
-// run async!
-(async () => {
-	const lastPost = await getTimeline()
-	const exStatId = lastPost.id
-
-
-	console.log(`status id: ${exStatId}`)
-
-	replyToStatus(exStatId, "lolll")
-})()
 
 //setInterval(makeStatus, 10000)
