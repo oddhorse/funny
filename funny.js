@@ -147,7 +147,7 @@ const pushSlop = async () => {
 	const target = timeline[getRandInt(0, 4)]
 
 	// TODO: 2. author a reply to the post
-	const origMsg = htmlEntities.decode(striptags(target.content))
+	const origMsg = htmlEntities.decode(striptags(target.content, [], '\n'))
 	const replyMsg = writeReply(origMsg)
 
 	// TODO: 3. validate reply to post against server rules
