@@ -1,5 +1,8 @@
 require('dotenv').config()
+const striptags = require('striptags')
 const Masto = require('masto')
+
+const htmlEntities = require('html-entities')
 
 const TWEET_INTERVAL_MIN = 30
 const TWEET_INTERVAL_MS = 1000 * 60 * TWEET_INTERVAL_MIN
@@ -33,22 +36,6 @@ const rollChance = (part, whole) => {
 	const roll = getRandInt(1, whole)
 	if (roll <= part) return true
 	return false
-}
-
-// UNUSED
-const makeStatus = async () => {
-	let rand = Math.floor(Math.random() * 6)
-	console.log(`we doing ${rand} this time`)
-
-	let msg = ''
-	for (let i = 0; i < rand; i++) msg += "😂"
-
-	console.log(`msg: ${msg}`)
-	const s = await m.v1.statuses.create({
-		status: msg,
-		visibility: 'public'
-	})
-	console.log(`status link: ${s.url}`)
 }
 
 const laughSprinkle = (min = 0, max = 4) => {
@@ -152,15 +139,6 @@ const getTimeline = async (limit = 5) => {
 }
 
 /**
- * removes <p> tags wrapping input text
- * @param {string} text - original text to scrub
- * @returns scrubbed, <p>-free text
- */
-const scrubPs = (text) => {
-	return text.substring(3, text.length - 4)
-}
-
-/**
  * main running function
  */
 const pushSlop = async () => {
@@ -169,7 +147,7 @@ const pushSlop = async () => {
 	const target = timeline[getRandInt(0, 4)]
 
 	// TODO: 2. author a reply to the post
-	const origMsg = scrubPs(target.content)
+	const origMsg = htmlEntities.decode(striptags(target.content))
 	const replyMsg = writeReply(origMsg)
 
 	// TODO: 3. validate reply to post against server rules
@@ -186,6 +164,7 @@ const pushSlop = async () => {
 }
 
 pushSlop()
+
 
 setInterval(() => {
 	//writeReply("testing")

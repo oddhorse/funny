@@ -12,6 +12,8 @@
   "dependencies": {
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "masto": "^7.10.2"
+    "html-entities": "^2.6.0",
+    "masto": "^7.10.2",
+    "striptags": "^3.2.0"
   }
 }
