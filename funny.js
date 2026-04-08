@@ -178,7 +178,7 @@ const pushSlop = async () => {
 	const reply = await m.v1.statuses.create({
 		inReplyToId: target.id,
 		status: replyMsg,
-		visibility: 'private'
+		visibility: 'public'
 	})
 	console.log(`replied to @${target.account.username}: "${origMsg}"
 		with "${replyMsg}"`)
