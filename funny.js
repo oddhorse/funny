@@ -147,7 +147,9 @@ const pushSlop = async () => {
 	const target = timeline[getRandInt(0, 4)]
 
 	// TODO: 2. author a reply to the post
-	const origMsg = htmlEntities.decode(striptags(target.content))
+	// preserve newlines before stripping (mastodon uses </p> and <br> for line breaks)
+	const rawContent = target.content.replace(/<\/p>/gi, '\n').replace(/<br\s*\/?>/gi, '\n')
+	const origMsg = htmlEntities.decode(striptags(rawContent)).trim()
 	const replyMsg = writeReply(origMsg)
 
 	// TODO: 3. validate reply to post against server rules
@@ -164,8 +166,6 @@ const pushSlop = async () => {
 }
 
 pushSlop()
-
-
 setInterval(() => {
 	//writeReply("testing")
 	pushSlop()
